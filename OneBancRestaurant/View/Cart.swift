@@ -10,8 +10,10 @@ import SwiftUI
 struct Cart: View {
     @EnvironmentObject var languageManager : LanguageManager
     @EnvironmentObject var cartVM: CartViewModel
+    @StateObject var cuisineVM = CuisineViewModel()
     @State var isActive: Bool = false
     @State var isActiveFailure: Bool = false
+    
     var body: some View {
         ZStack{
             VStack{
@@ -25,39 +27,46 @@ struct Cart: View {
                             .font(.system(size: 30))
                     }
                 } else {
+                    let groupedItems = Dictionary(grouping: cartVM.items, by: { $0.cuisineID })
                     
+                    let sortedCuisineIDs = groupedItems.keys.sorted()
                     List {
-                        ForEach(cartVM.items, id: \.id) { item in
-                            HStack {
-                                RemoteImage(urlString: item.imageURL)
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 100, height: 100)
-                                    .clipped()
-                                    .cornerRadius(10)
-                                Text(item.name)
-                                Spacer()
-                                HStack(spacing: 6) {
-                                    Button("-") {
-                                        if cartVM.quantityForDish(itemID: item.id) > 0 {
-                                            cartVM.removeItem(item)
+                        ForEach(sortedCuisineIDs, id: \.self) { cuisineID in
+                            let cuisineName = cuisineVM.cuisines.first { $0.cuisine_id == cuisineID }?.cuisine_name ?? "Unknown Cuisine"
+                            Section(header: Text("Cuisine: \(cuisineName)")) {
+                                ForEach(groupedItems[cuisineID] ?? []) { item in
+                                    HStack {
+                                        RemoteImage(urlString: item.imageURL)
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100)
+                                            .clipped()
+                                            .cornerRadius(10)
+                                        Text(item.name)
+                                        Spacer()
+                                        HStack(spacing: 6) {
+                                            Button("-") {
+                                                if cartVM.quantityForDish(itemID: item.id) > 0 {
+                                                    cartVM.removeItem(item)
+                                                }
+                                            }
+                                            .buttonStyle(.plain)
+                                            
+                                            Text("\(cartVM.quantityForDish(itemID: item.id))")
+                                            
+                                            Button("+") {
+                                                cartVM.addItem(item)
+                                            }
+                                            .buttonStyle(.plain)
                                         }
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 10)
+                                        .background(.ultraThinMaterial)
+                                        .foregroundColor(.black)
+                                        .clipShape(Capsule())
+                                        .shadow(radius: 3)
+                                        Text("₹\(item.price * item.quantity)")
                                     }
-                                    .buttonStyle(.plain)
-                                    
-                                    Text("\(cartVM.quantityForDish(itemID: item.id))")
-                                    
-                                    Button("+") {
-                                        cartVM.addItem(item)
-                                    }
-                                    .buttonStyle(.plain)
                                 }
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 10)
-                                .background(.ultraThinMaterial)
-                                .foregroundColor(.black)
-                                .clipShape(Capsule())
-                                .shadow(radius: 3)
-                                Text("₹\(item.price * item.quantity)")
                             }
                         }
                         
@@ -116,6 +125,9 @@ struct Cart: View {
                     OrderPlacedDialog(isActive: $isActive,title:"ऑर्डर प्राप्त हुआ", message:"आपका ऑर्डर सफलतापूर्वक प्राप्त हो गया है और हम शीघ्र ही आप तक पहुंचेंगे। वनबैंक रेस्तरां का उपयोग करने के लिए धन्यवाद", buttonTitle:"होम स्क्रीन पर जाएं")
                 }
             }
+        }
+        .onAppear(){
+            cuisineVM.fetchCuisinesIfNeeded()
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
