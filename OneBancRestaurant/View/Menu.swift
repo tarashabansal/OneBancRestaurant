@@ -13,26 +13,43 @@ struct Menu: View {
     let selectedCuisine: String
    
     var body: some View {
-        VStack{
-            Color.clear.frame(height: 20)
-            let filteredCuisines = viewModel.cuisines.filter { $0.cuisine_name == selectedCuisine }
-            Text(selectedCuisine)
-                .font(.title3)
-                .bold()
-            
-            List(filteredCuisines) { cuisine in
-                ForEach(cuisine.items, id: \.id) { dish in
-                    MenuListItem(cuisineId: cuisine.cuisine_id, dish: dish)
+        NavigationStack{
+            VStack{
+                Color.clear.frame(height: 20)
+                let filteredCuisines = viewModel.cuisines.filter { $0.cuisine_name == selectedCuisine }
+                Text(selectedCuisine)
+                    .font(.title3)
+                    .bold()
+                
+                List(filteredCuisines) { cuisine in
+                    ForEach(cuisine.items, id: \.id) { dish in
+                        MenuListItem(cuisineId: cuisine.cuisine_id, dish: dish)
+                    }
                 }
+                .onAppear{
+                    viewModel.fetchCuisinesIfNeeded()
+                }
+                
+                Spacer()
+                
+                NavigationLink(destination: Cart()) {
+                    Text(languageManager.localText("Go to Cart", "कार्ट पर जाएं", language: languageManager.currentLanguage))
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        
+                }
+               
+
             }
-            .onAppear{
-                viewModel.fetchCuisinesIfNeeded()
-            }
+            
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Text(languageManager.localText("OneBanc Restaurant","वनबैंक रेस्तरां",language: languageManager.currentLanguage))
-                    .foregroundColor(Color.yellow)
+                    .foregroundColor(Color.white)
                     .bold()
                     .font(.title2)
                 
@@ -46,12 +63,10 @@ struct Menu: View {
                 }) {
                     Image(systemName: "globe")
                         .font(.body)
-                        .padding()
                         .foregroundColor(.white)
                 }
             }
         }
-        .padding(20)
     }
     
 }

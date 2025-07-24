@@ -22,8 +22,7 @@ struct TopDishes: View {
                         let quantity = cartVM.quantityForDish(itemID: dish.id)
                         VStack {
                             RemoteImage(urlString: dish.image_url)
-                                .frame(width: 100, height: 100)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .frame(height: 125)
                             
                             Text(dish.name)
                                 .font(.subheadline)
@@ -31,11 +30,16 @@ struct TopDishes: View {
                                 .lineLimit(1)
                             HStack(spacing: 4) {
                                 Text("₹\(dish.price)")
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
+                                Spacer()
                                 Text(dish.rating)
+                                    .font(.system(size:15))
                                     .foregroundColor(.gray)
+                                Image(systemName: "star.fill")
+                                    .font(.system(size:15))
+                                    .foregroundColor(.yellow)
+                                
                             }
+                            .padding(.horizontal,10)
                             
                             HStack(spacing: 12) {
                                 Button("-") {

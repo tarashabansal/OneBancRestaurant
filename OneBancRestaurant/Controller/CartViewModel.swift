@@ -155,7 +155,7 @@ class CartViewModel: ObservableObject {
     }
     
     
-    //Toolbar Cart Button UI
+
     struct CartButton: View {
         @EnvironmentObject var cartVM: CartViewModel
         
@@ -174,7 +174,7 @@ class CartViewModel: ObservableObject {
                         .font(.caption2)
                         .foregroundColor(.black)
                         .padding(6)
-                        .background(Color.yellow)
+                        .background(Color.white)
                         .clipShape(Circle())
                         .offset(x:-7, y:10)
                     

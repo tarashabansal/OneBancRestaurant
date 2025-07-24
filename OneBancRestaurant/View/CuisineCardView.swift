@@ -16,24 +16,13 @@ struct CuisineCardView: View {
             RemoteImage(urlString: cuisine.cuisine_image_url)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(radius: 10)
-                .padding()
                 .frame(maxWidth: .infinity, maxHeight: 180)
 
             Text(cuisine.cuisine_name)
-                .font(.largeTitle)
                 .foregroundColor(.white)
                 .bold()
-                .padding(8)
-                .background(
-                    Color.black
-                        .opacity(0.5)
-                )
-                
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                
-            
         }
-        .frame(width: 400, height: 240)
+        .frame(width: 400, height: 200)
     }
 }
 

@@ -53,5 +53,6 @@ struct CuisineCard: View {
 }
 
 #Preview {
-    CuisineCard()
+    CuisineCard().environmentObject(LanguageManager())
+        .environmentObject(CartViewModel())
 }

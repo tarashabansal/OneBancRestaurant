@@ -11,7 +11,7 @@ struct OrderPlacedDialog: View {
     @Binding var isActive: Bool
 
     var title: String = "Order Placed!"
-    var message: String = "Your order was successfully placed!Thankyou for using OneBanc Restaurant."
+    var message: String = "Thankyou for using OneBanc Restaurant."
     var buttonTitle: String = "Go to Home"
     
     @State private var offset: CGFloat = 1000
@@ -29,10 +29,14 @@ struct OrderPlacedDialog: View {
                     .font(.title2)
                     .bold()
                     .padding()
-
-                Text(message)
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                VStack{
+                    Image(systemName: "hand.thumbsup.circle")
+                        .font(.system(size: 80))
+                        
+                    Text(message)
+                        .font(.body)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
 
                 Button {
                     close()
@@ -55,7 +59,6 @@ struct OrderPlacedDialog: View {
                 }
             }
             .fixedSize(horizontal: false, vertical: true)
-            .padding()
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay(alignment: .topTrailing) {

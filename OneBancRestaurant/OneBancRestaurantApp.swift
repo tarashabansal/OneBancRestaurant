@@ -11,10 +11,12 @@ import SwiftUI
 struct OneBancRestaurantApp: App {
     @StateObject var cartViewModel = CartViewModel()
     @StateObject var languageManager = LanguageManager()
+    
     init() {
            let appearance = UINavigationBarAppearance()
+           let androidPurple = UIColor(red: 98/255, green: 0/255, blue: 238/255, alpha: 1)
            appearance.configureWithOpaqueBackground()
-           appearance.backgroundColor = UIColor.black
+           appearance.backgroundColor = androidPurple
            appearance.titleTextAttributes = [
             .foregroundColor: UIColor.yellow,
             .font: UIFont.systemFont(ofSize: 16)
