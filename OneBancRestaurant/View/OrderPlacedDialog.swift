@@ -29,13 +29,16 @@ struct OrderPlacedDialog: View {
                     .font(.title2)
                     .bold()
                     .padding()
+                    .foregroundColor(.black)
+                    
                 VStack{
                     Image(systemName: "hand.thumbsup.circle")
                         .font(.system(size: 80))
-                        
+                        .foregroundColor(.black)
                     Text(message)
                         .font(.body)
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(.black)
                 }
 
                 Button {
@@ -43,7 +46,7 @@ struct OrderPlacedDialog: View {
                 } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 20)
-                            .foregroundColor(.black)
+                            
                         NavigationLink(destination: HomeScreen()) {
                             Text(buttonTitle)
                                 .font(.headline)

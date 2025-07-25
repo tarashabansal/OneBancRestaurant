@@ -61,7 +61,7 @@ struct MenuListItem: View {
                 .padding(.vertical, 6)
                 .padding(.horizontal, 10)
                 .background(.ultraThinMaterial)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .clipShape(Capsule())
                 .shadow(radius: 3)
                 .offset(y: 5)

@@ -29,10 +29,14 @@ struct FailureDialog: View {
                     .font(.title2)
                     .bold()
                     .padding()
-
+                    .foregroundColor(.black)
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 80))
+                    .foregroundColor(.black)
                 Text(message)
                     .font(.body)
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(.black)
 
                 Button {
                     close()

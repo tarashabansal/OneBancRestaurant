@@ -77,10 +77,11 @@ struct TopDishes: View {
                                     .buttonStyle(.plain)
                                 }
                             }
-                            .padding(.vertical, 6)
+                            
                             .padding(.horizontal, 10)
+                            .padding(.vertical, 1)
                             .background(.ultraThinMaterial)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .clipShape(Capsule())
                             .shadow(radius: 3)
                             
@@ -89,6 +90,7 @@ struct TopDishes: View {
                             
                         }
                         .padding(-1)
+                        .padding(.bottom,5)
                         .frame(height: 200)
                         .background(Color(.secondarySystemBackground))
                         .cornerRadius(12)

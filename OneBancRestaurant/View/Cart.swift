@@ -21,7 +21,7 @@ struct Cart: View {
                     if cartVM.items.isEmpty {
                         VStack{
                             Image(systemName: "cart.fill")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .font(.system(size: 80))
                             Text(languageManager.localText("Cart is empty","कार्ट खाली है",language: languageManager.currentLanguage))
                                 .font(.system(size: 30))
@@ -57,7 +57,7 @@ struct Cart: View {
                                                 .padding(.vertical, 6)
                                                 .padding(.horizontal, 12)
                                                 .background(.ultraThinMaterial)
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.primary)
                                                 .clipShape(Capsule())
                                                 .shadow(radius: 3)
                                                 
