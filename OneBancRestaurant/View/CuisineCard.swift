@@ -19,6 +19,21 @@ struct CuisineCard: View {
                                 .transition(.asymmetric(
                                     insertion: .move(edge: showPreviousCard ? .leading : .trailing),
                                     removal: .move(edge: showPreviousCard ? .trailing : .leading)))
+                                .gesture(
+                                    DragGesture()
+                                        .onEnded { value in
+                                            let threshold: CGFloat = 100
+                                            withAnimation(.snappy) {
+                                                if value.translation.width < -threshold {
+                                                    showPreviousCard = false
+                                                    currentIndex = (currentIndex + 1) % max(viewModel.cuisines.count, 1)
+                                                } else if value.translation.width > threshold {
+                                                    showPreviousCard = true
+                                                    currentIndex = (currentIndex - 1 + viewModel.cuisines.count) % max(viewModel.cuisines.count, 1)
+                                                }
+                                            }
+                                        }
+                                )
                         }
                         .buttonStyle(.plain)
                     }
@@ -27,27 +42,7 @@ struct CuisineCard: View {
             .onAppear {
                 viewModel.fetchCuisinesIfNeeded()
             }
-            .onReceive(timer) { _ in
-                withAnimation(.snappy) {
-                    showPreviousCard = false
-                    currentIndex = (currentIndex + 1) % max(viewModel.cuisines.count, 1)
-                }
-            }
-            .gesture(
-                DragGesture()
-                    .onEnded { value in
-                        let threshold: CGFloat = 100
-                        withAnimation(.snappy) {
-                            if value.translation.width < -threshold {
-                                showPreviousCard = false
-                                currentIndex = (currentIndex + 1) % max(viewModel.cuisines.count, 1)
-                            } else if value.translation.width > threshold {
-                                showPreviousCard = true
-                                currentIndex = (currentIndex - 1 + viewModel.cuisines.count) % max(viewModel.cuisines.count, 1)
-                            }
-                        }
-                    }
-            )
+            
         }
     }
 }

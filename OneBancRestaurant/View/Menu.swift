@@ -15,60 +15,38 @@ struct Menu: View {
     var body: some View {
         NavigationStack{
             VStack{
-                Color.clear.frame(height: 20)
                 let filteredCuisines = viewModel.cuisines.filter { $0.cuisine_name == selectedCuisine }
-                Text(selectedCuisine)
-                    .font(.title3)
-                    .bold()
-                
                 List(filteredCuisines) { cuisine in
-                    ForEach(cuisine.items, id: \.id) { dish in
-                        MenuListItem(cuisineId: cuisine.cuisine_id, dish: dish)
+                    Section(
+                        header: Text("\(selectedCuisine)")
+                        .font(.body)
+                        .bold())
+                    {
+                        ForEach(cuisine.items, id: \.id) { dish in
+                            MenuListItem(cuisineId: cuisine.cuisine_id, dish: dish)
+                        }
                     }
                 }
+                .listStyle(PlainListStyle())
                 .onAppear{
                     viewModel.fetchCuisinesIfNeeded()
                 }
-                
                 Spacer()
-                
                 NavigationLink(destination: Cart()) {
-                    Text(languageManager.localText("Go to Cart", "कार्ट पर जाएं", language: languageManager.currentLanguage))
+                    Text(languageManager.localText("Proceed to Checkout", "कार्ट पर जाएं", language: languageManager.currentLanguage))
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
                         .background(Color.black)
                         .foregroundColor(.white)
-                        
                 }
-               
-
             }
-            
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text(languageManager.localText("OneBanc Restaurant","वनबैंक रेस्तरां",language: languageManager.currentLanguage))
-                    .foregroundColor(Color.white)
-                    .bold()
-                    .font(.title2)
-                
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                CartViewModel.CartButton()
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    languageManager.toggleLanguage()
-                }) {
-                    Image(systemName: "globe")
-                        .font(.body)
-                        .foregroundColor(.white)
-                }
-            }
+            Toolbar(pageName: "Menu")
         }
     }
-    
 }
 
 #Preview {

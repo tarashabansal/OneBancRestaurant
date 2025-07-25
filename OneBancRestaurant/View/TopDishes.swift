@@ -22,10 +22,13 @@ struct TopDishes: View {
                         let quantity = cartVM.quantityForDish(itemID: dish.id)
                         VStack {
                             RemoteImage(urlString: dish.image_url)
-                                .frame(height: 125)
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 115, height: 115)
+                                .clipped()
+                                .cornerRadius(10)
                             
                             Text(dish.name)
-                                .font(.subheadline)
+                                .font(.body)
                                 .frame(maxWidth: .infinity)
                                 .lineLimit(1)
                             HStack(spacing: 4) {
@@ -40,8 +43,9 @@ struct TopDishes: View {
                                 
                             }
                             .padding(.horizontal,10)
+                            .padding(.top,2)
                             
-                            HStack(spacing: 12) {
+                            HStack() {
                                 Button("-") {
                                     if cartVM.quantityForDish(itemID: dish.id) > 0 {
                                         cartVM.removeItem(dish: dish,cuisineID: cuisineID)
@@ -56,6 +60,7 @@ struct TopDishes: View {
                                 }
                                 .buttonStyle(.plain)
                             }
+                            .padding(.bottom,15)
                         }
                         .padding(-1)
                         .frame(height: 200)
@@ -63,13 +68,16 @@ struct TopDishes: View {
                         .cornerRadius(12)
                     }
                 }
-                .padding(0)
+                
                 
             }
         }
+        
         .onAppear {
             viewModel.fetchCuisinesIfNeeded()
         }
+        .padding(.horizontal,10)
+        
     }
 }
 

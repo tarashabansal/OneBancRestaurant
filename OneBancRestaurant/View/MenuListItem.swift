@@ -56,7 +56,7 @@ struct MenuListItem: View {
                 .foregroundColor(.black)
                 .clipShape(Capsule())
                 .shadow(radius: 3)
-                .offset(y: 15)
+                .offset(y: 5)
             }
             .frame(width: 100, height: 100)
         }

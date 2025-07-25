@@ -18,7 +18,6 @@ struct Cart: View {
         NavigationStack{
             ZStack{
                 VStack{
-                    Color.clear.frame(height: 20)
                     if cartVM.items.isEmpty {
                         VStack{
                             Image(systemName: "cart.fill")
@@ -34,17 +33,12 @@ struct Cart: View {
                         List {
                             ForEach(sortedCuisineIDs, id: \.self) { cuisineID in
                                 let cuisineName = cuisineVM.cuisines.first { $0.cuisine_id == cuisineID }?.cuisine_name ?? "Unknown Cuisine"
-                                Section(header: Text("Cuisine: \(cuisineName)")) {
+                                Section(header: Text("\(cuisineName)")) {
                                     ForEach(groupedItems[cuisineID] ?? []) { item in
                                         HStack {
-                                            RemoteImage(urlString: item.imageURL)
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: 100, height: 100)
-                                                .clipped()
-                                                .cornerRadius(10)
+                                            Text(item.name)
+                                            Spacer()
                                             VStack{
-                                                Text(item.name)
-                                               
                                                 HStack(spacing: 12) {
                                                     Button("-") {
                                                         if cartVM.quantityForDish(itemID: item.id) > 0 {
@@ -66,14 +60,14 @@ struct Cart: View {
                                                 .foregroundColor(.black)
                                                 .clipShape(Capsule())
                                                 .shadow(radius: 3)
+                                                
+                                                Text("₹\(item.price * item.quantity)")
                                             }
-                                            
-                                                Spacer()
-                                            Text("₹\(item.price * item.quantity)")
                                         }
                                     }
                                 }
                             }
+                            
                             
                             VStack(alignment: .trailing) {
                                 Text(languageManager.localText(
@@ -90,6 +84,7 @@ struct Cart: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         }
+                        .listStyle(PlainListStyle())
                         Button(action: {
                             cartVM.makePayment { responseCode in
                                 if responseCode == 200 {
@@ -133,23 +128,9 @@ struct Cart: View {
                 cuisineVM.fetchCuisinesIfNeeded()
             }
         }
+        .navigationBarBackButtonHidden(true)
         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Text(languageManager.localText("OneBanc Restaurant","वनबैंक रेस्तरां",language: languageManager.currentLanguage))
-                    .foregroundColor(Color.white)
-                    .bold()
-                    .font(.title2)
-                
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    languageManager.toggleLanguage()
-                }) {
-                    Image(systemName: "globe")
-                        .font(.body)
-                        .foregroundColor(.white)
-                }
-            }
+            Toolbar(pageName: "Cart")
         }
     }
 

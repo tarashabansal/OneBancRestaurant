@@ -12,8 +12,6 @@ struct Cuisine: Identifiable, Decodable {
     let items: [Dish]
     var id: String { cuisine_id }
 }
-
-
 //output format for get_item_by_list API
 struct ItemListResponse: Decodable {
     let cuisines: [Cuisine]

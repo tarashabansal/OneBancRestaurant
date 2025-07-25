@@ -12,45 +12,26 @@ struct HomeScreen: View {
     var body: some View {
         
         NavigationStack {
-            VStack(alignment:.leading){
-                Color.clear.frame(height: 20)
+            VStack(){
                 CuisineCard()
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 5))
                 Text(languageManager.localText("Favourite Dishes", "पसंदीदा खाना", language: languageManager.currentLanguage))
-                    .font(.title3)
+                    .font(.body)
                     .bold()
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .frame(width: 380, alignment: .leading)
                 TopDishes()
-                
+                    .padding(.horizontal,20)
                 Spacer()
                 
             }
             .frame(alignment: .topLeading)
-            .navigationBarBackButtonHidden(true)    
+            .navigationBarBackButtonHidden(true)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text(languageManager.localText("OneBanc Restaurant","वनबैंक रेस्तरां",language: languageManager.currentLanguage))
-                        .foregroundColor(Color.white)
-                        .bold()
-                        .font(.title2)
-                    
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    CartViewModel.CartButton()
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        languageManager.toggleLanguage()
-                    }) {
-                        Image(systemName: "globe")
-                            .font(.body)
-                            .foregroundColor(.white)
-                    }
-                }
+                Toolbar(pageName: "Home")
             }
             
         }
+        
+        
     }
 }
 

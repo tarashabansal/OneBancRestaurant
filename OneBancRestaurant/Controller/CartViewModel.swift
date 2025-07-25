@@ -163,10 +163,9 @@ class CartViewModel: ObservableObject {
             ZStack(alignment: .topTrailing) {
                 NavigationLink(destination: Cart()) {
                     Image(systemName: "cart")
-                        .resizable()
+                        .font(.title3)
                         .foregroundColor(.white)
-                        .frame(width: 28, height: 28)
-                        .padding()
+                        
                 }
                 
                 if cartVM.totalItems > 0 {
@@ -176,7 +175,7 @@ class CartViewModel: ObservableObject {
                         .padding(6)
                         .background(Color.white)
                         .clipShape(Circle())
-                        .offset(x:-7, y:10)
+                        .offset(x:-5, y:-5)
                     
                 }
             }

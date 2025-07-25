@@ -10,8 +10,10 @@ import Foundation
 
 class CuisineViewModel: ObservableObject {
     @Published var cuisines: [Cuisine] = []
+    
     @Published var topDishes: [(String,Dish)] = []
-
+    
+    //Only make the API call if needed else reuse the static data.
     func fetchCuisinesIfNeeded() {
         if cuisines.isEmpty{
             fetchCuisines()
@@ -28,7 +30,7 @@ class CuisineViewModel: ObservableObject {
         request.addValue(API_ENDPOINT, forHTTPHeaderField: "X-Forward-Proxy-Action")
         
         //Sample Input : Can be changed as per required
-        let body: [String: Any] = ["page": 2, "count": 20]
+        let body: [String: Any] = ["page": 5, "count": 20]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         URLSession.shared.dataTask(with: request) { data, _, error in
