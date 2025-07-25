@@ -21,16 +21,25 @@ struct TopDishes: View {
                     ForEach(viewModel.topDishes, id: \.1.id) { cuisineID,dish in
                         let quantity = cartVM.quantityForDish(itemID: dish.id)
                         VStack {
-                            RemoteImage(urlString: dish.image_url)
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 115, height: 115)
-                                .clipped()
-                                .cornerRadius(10)
-                            
-                            Text(dish.name)
-                                .font(.body)
-                                .frame(maxWidth: .infinity)
-                                .lineLimit(1)
+                            ZStack(alignment: .bottom){
+                                RemoteImage(urlString: dish.image_url)
+                                    .overlay(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [.clear, .black]),
+                                            startPoint: .center,
+                                            endPoint: .bottom
+                                        ))
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 115, height: 115)
+                                    .clipped()
+                                    .cornerRadius(10)
+                                
+                                Text(dish.name)
+                                    .font(.body)
+                                    .frame(maxWidth: .infinity)
+                                    .lineLimit(1)
+                                    .foregroundColor(.white)
+                            }
                             HStack(spacing: 4) {
                                 Text("₹\(dish.price)")
                                 Spacer()
@@ -45,22 +54,39 @@ struct TopDishes: View {
                             .padding(.horizontal,10)
                             .padding(.top,2)
                             
-                            HStack() {
-                                Button("-") {
-                                    if cartVM.quantityForDish(itemID: dish.id) > 0 {
-                                        cartVM.removeItem(dish: dish,cuisineID: cuisineID)
+                            HStack(spacing: 12) {
+                                if quantity>0{
+                                    Button("-") {
+                                        if cartVM.quantityForDish(itemID: dish.id) > 0 {
+                                            cartVM.removeItem(dish: dish,cuisineID: cuisineID)
+                                        }
                                     }
+                                    .buttonStyle(.plain)
+                                    
+                                    Text("\(quantity)")
+                                    
+                                    Button("+") {
+                                        cartVM.addItem(dish: dish,cuisineID: cuisineID)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
-                                
-                                Text("\(quantity)")
-                                
-                                Button("+") {
-                                    cartVM.addItem(dish: dish,cuisineID: cuisineID)
+                                else{
+                                    Button("+ ADD") {
+                                        cartVM.addItem(dish: dish,cuisineID: cuisineID)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
                             }
-                            .padding(.bottom,15)
+                            .padding(.vertical, 6)
+                            .padding(.horizontal, 10)
+                            .background(.ultraThinMaterial)
+                            .foregroundColor(.black)
+                            .clipShape(Capsule())
+                            .shadow(radius: 3)
+                            
+                            
+                        
+                            
                         }
                         .padding(-1)
                         .frame(height: 200)

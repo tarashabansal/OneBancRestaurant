@@ -13,6 +13,12 @@ struct HomeScreen: View {
         
         NavigationStack {
             VStack(){
+                Text(languageManager.localText("Menu By Cuisine", "व्यंजन के अनुसार मेनू", language: languageManager.currentLanguage))
+                    .font(.body)
+                    .bold()
+                    .padding(.top,15)
+                    .padding(.bottom,-5)
+                    .frame(width: 380, alignment: .leading)
                 CuisineCard()
                 Text(languageManager.localText("Favourite Dishes", "पसंदीदा खाना", language: languageManager.currentLanguage))
                     .font(.body)

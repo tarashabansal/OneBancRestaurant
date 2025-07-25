@@ -36,19 +36,27 @@ struct MenuListItem: View {
                     .clipped()
                     .cornerRadius(10)
                 HStack(spacing: 12) {
-                    Button("-") {
-                        if cartVM.quantityForDish(itemID: dish.id) > 0 {
-                            cartVM.removeItem(dish: dish,cuisineID: cuisineId)
+                    if quantity>0{
+                        Button("-") {
+                            if cartVM.quantityForDish(itemID: dish.id) > 0 {
+                                cartVM.removeItem(dish: dish,cuisineID: cuisineId)
+                            }
                         }
+                        .buttonStyle(.plain)
+                        
+                        Text("\(quantity)")
+                        
+                        Button("+") {
+                            cartVM.addItem(dish: dish,cuisineID: cuisineId)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
-                    
-                    Text("\(quantity)")
-                    
-                    Button("+") {
-                        cartVM.addItem(dish: dish,cuisineID: cuisineId)
+                    else{
+                        Button("+ ADD") {
+                            cartVM.addItem(dish: dish,cuisineID: cuisineId)
+                        }
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
                 .padding(.vertical, 6)
                 .padding(.horizontal, 10)

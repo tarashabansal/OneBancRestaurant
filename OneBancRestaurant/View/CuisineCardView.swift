@@ -14,10 +14,17 @@ struct CuisineCardView: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             RemoteImage(urlString: cuisine.cuisine_image_url)
+                .overlay(
+                    LinearGradient(
+                        gradient: Gradient(colors: [.clear, .black]),
+                        startPoint: .center,
+                        endPoint: .bottom
+                    ))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(radius: 10)
                 .frame(maxWidth: .infinity, maxHeight: 180)
                 .padding(.horizontal,10)
+                
 
             Text(cuisine.cuisine_name)
                 .foregroundColor(.white)

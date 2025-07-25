@@ -5,8 +5,6 @@ struct CuisineCard: View {
     @State private var currentIndex: Int = 0
     @State private var showPreviousCard: Bool = false
 
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-
     var body: some View {
         NavigationStack {
             ZStack {
